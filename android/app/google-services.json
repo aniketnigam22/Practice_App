@@ -1,0 +1,94 @@
+{
+  "project_info": {
+    "project_number": "132052573932",
+    "project_id": "duffyboxing-3211e",
+    "storage_bucket": "duffyboxing-3211e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:132052573932:android:d8ad61a8bfae64986f4fc9",
+        "android_client_info": {
+          "package_name": "com.duffybeta"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "132052573932-2tdtlad4sdsg6egadg8t9afp0l6u2596.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.duffybeta",
+            "certificate_hash": "fba2be18ee465a3c7c251f67d4c60e3958f9723e"
+          }
+        },
+        {
+          "client_id": "132052573932-378ek2r739lu9kelf1ldvgqub097tt5m.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.duffybeta",
+            "certificate_hash": "7d3fda523e22421a5d43c4ea6286eaa71260b79a"
+          }
+        },
+        {
+          "client_id": "132052573932-3t2soedvc4a2ph07ks16e03jkatgqg1b.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.duffybeta",
+            "certificate_hash": "2af9a9082aa4797627c5c80607ae861f445aca69"
+          }
+        },
+        {
+          "client_id": "132052573932-7i2ugnhiu36jg5so4k1bpg9gce17tean.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.duffybeta",
+            "certificate_hash": "b1ed557d701d497beb49e1e0baf3051abfa57df6"
+          }
+        },
+        {
+          "client_id": "132052573932-m1uh2i55lnhncd5riit2rff0sh9o9un8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.duffybeta",
+            "certificate_hash": "0fe18545c792041252cbbfdb1ccbf1b6085ab766"
+          }
+        },
+        {
+          "client_id": "132052573932-m33ikjj8qgo7ekeq6m0epp7q9vhrkk42.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.duffybeta",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "132052573932-04baahjdp021ke1i4t201j287dr63kc8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCudOtWuGX9x4Bg16hwFxR17JVLgGn3m80"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "132052573932-04baahjdp021ke1i4t201j287dr63kc8.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "132052573932-d0s301r0snhc65dneh7k1f38vgej9kr7.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.duffyboxing"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
