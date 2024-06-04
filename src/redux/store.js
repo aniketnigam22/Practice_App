@@ -3,6 +3,8 @@ import counterReducer from './counter/counterSlice'
 import colorReducer from './color/colorSlice'
 import userReducer from './data/dataSlice'
 import userInfoReducer from './user/UserData'
+import drawerReducer from './drawer/ToggleDrawer'
+
 
 export const store = configureStore({
   reducer: {
@@ -10,5 +12,6 @@ export const store = configureStore({
     color:colorReducer,
     user:userReducer,
     userId:userInfoReducer,
+    drawer:drawerReducer
   },
 })

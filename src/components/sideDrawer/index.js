@@ -1,13 +1,5 @@
-/*
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow strict-local
- */
 
 import React, { useState } from 'react';
-// import type {Node} from 'react';
 import {
     ScrollView,
     StatusBar,
@@ -23,86 +15,142 @@ import MenuDrawer from 'react-native-side-drawer'
 import ScreenHeader from '../screenHeader';
 import { AppImages } from '../../common/AppImages';
 import { responsiveHeight, responsiveWidth } from '../../common/metrices';
-import { Divider } from 'react-native-paper';
+import { Button, Dialog, Divider, Portal, Provider } from 'react-native-paper';
+import { useDispatch, useSelector } from 'react-redux'
+import { useNavigation } from '@react-navigation/native';
+import { removeUser } from '../../redux/user/UserData';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { close } from '../../redux/drawer/ToggleDrawer';
 
 export const Drawer = (props) => {
+
+
+    const navigation = useNavigation()
+    const redux_data = useSelector((state) => state.userId?.data?.user);
+    const PROFILE_BASE_URL = 'http://192.168.29.244:5000/uploads/'
+
+
+    const [profilePic, setProfilePic] = useState(redux_data?.profileImage == '-' ? '-' : PROFILE_BASE_URL)
+    console.log('profilePic', profilePic)
+
+    {/* for dialog logout */ }
+    const [visible, setVisible] = useState(false);
+
+    const hideDialog = () => setVisible(true);
+
+
+    const username = redux_data?.name
+    const crp = redux_data?.crNo
+    const mobile = redux_data?.mobileNo
+
+
     const overlay = false
     const position = 'left'
-  
+
+    const dispatch = useDispatch();
+
+    const handleLogout = async () => {
+        try {
+            await AsyncStorage.removeItem('userId');
+            await AsyncStorage.removeItem('token');
+            const userLoggedInValue = AsyncStorage.setItem('userLoggedIn', '0')
+            console.log('User data removed successfully during logout');
+            console.log('user logged value during logout', userLoggedInValue)
+            dispatch(removeUser());
+            setVisible(false)
+            dispatch(close())
+            navigation.navigate('Login');
+        } catch (error) {
+            console.error('error in handleLogout', error);
+        }
+
+    }
+
     const drawerContent = () => {
         const edges = position == 'right' ? ['bottom', 'top', 'right'] : ['bottom', 'top', 'left']
-        const baseStyle = { flex: 1, borderStyle: 'solid', borderWidth: 2, borderColor: 'black' }
+        const baseStyle = { flex: 1, borderStyle: 'solid', }
 
-
+        console.log(profilePic + '?=' + new Date());
 
         return (
             <SafeAreaView edges={edges} style={baseStyle}>
-                {/* <View style={{ flexDirection: 'column', backgroundColor: 'orange', flex: 1, padding: 20 }}>
-                    <Text>Overlay={overlay.toString()}</Text>
-                    <Text style={styles.text}>Position={position}</Text>
-                    <TouchableOpacity onPress={props.toggleDrawer}>
-                        <Text style={styles.textLink}>I will disappear if you click here</Text>
-                    </TouchableOpacity>
-                    <Text style={styles.text}>When using overlay you will need to account for SafeAreView and it needs unique styling</Text>
-                </View> */}
+                <Provider>
+                    <View style={{ flex: 1, backgroundColor: '#F3F5F9' }}>
+                        <ScreenHeader backNavigate={props.toggleDrawer} />
+                        <View style={{ flexDirection: 'row', margin: '5%', alignItems: 'center' }}>
 
-                <View style={{ flex: 1, backgroundColor: '#F3F5F9' }}>
-                    <ScreenHeader backNavigate={props.toggleDrawer} />
-                    <View style={{ flexDirection: 'row', margin: '5%', alignItems: 'center' }}>
-                        <View style={{ borderColor: 'red', borderWidth: 1, height: 74, width: 74, borderRadius: 37, justifyContent: 'center', alignItems: 'center' }}>
-                            <Image source={AppImages.profileImage} />
-                        </View>
-                        <View style={{ marginLeft: '5%' }}>
-                            <Text style={{ color: '#343434', fontSize: 18, fontWeight: '600' }}>Tauseef Ahmed</Text>
-                            <Text style={{ color: '#AAB1BB', fontSize: 12, fontWeight: '600', marginTop: 2 }}>CPR5874</Text>
-                            <Text style={{ color: '#343434', fontSize: 14, fontWeight: '600', marginTop: 2 }}>+91 9876543210</Text>
+                            <View style={{ height: 74, width: 74, borderRadius: 37, justifyContent: 'center', alignItems: 'center' }}>
+                                {
+                                profilePic == '-' ?
+                                    <Image source={AppImages.profileImage} style={{ height: 60, width: 60, borderRadius: 60, borderWidth: 1, borderColor: "grey" }} />
+                                    :
+                                    <Image source={{ uri: profilePic + redux_data?.profileImage + '?=' + new Date() }} style={{ height: 60, width: 60, borderRadius: 60, borderWidth: 1, borderColor: "#333" }} />
+                                }
+                            </View>
+
+                            <View style={{ marginLeft: '5%' }}>
+                                <Text style={{ color: '#343434', fontSize: 18, fontWeight: '600' }}>{username}</Text>
+                                <Text style={{ color: '#AAB1BB', fontSize: 12, fontWeight: '600', marginTop: 2 }}>{crp}</Text>
+                                <Text style={{ color: '#343434', fontSize: 14, fontWeight: '600', marginTop: 2 }}>{mobile}</Text>
+                            </View>
                         </View>
                     </View>
-                </View>
-                <View style={{ flex: 4, backgroundColor: '#FFFFFF' }}>
-                    <TouchableOpacity style={[styles.drawerOptionContainer]}>
-                        <Image source={AppImages.human} style={styles.drawerOptionIcon} />
-                        <Text style={styles.drawerOptionText}>My Profile</Text>
-                    </TouchableOpacity>
+                    <View style={{ flex: 4, backgroundColor: '#FFFFFF' }}>
+                        <TouchableOpacity style={[styles.drawerOptionContainer]} onPress={() => navigation.navigate('Profile')}>
+                            <Image source={AppImages.human} style={styles.drawerOptionIcon} />
+                            <Text style={styles.drawerOptionText}>My Profile</Text>
+                        </TouchableOpacity>
 
-                    <Divider />
+                        <Divider />
 
-                    <TouchableOpacity style={[styles.drawerOptionContainer]}>
-                        <Image source={AppImages.lightQrCode} style={styles.drawerOptionIcon} />
-                        <Text style={styles.drawerOptionText}>My Booking</Text>
-                    </TouchableOpacity>
+                        <TouchableOpacity style={[styles.drawerOptionContainer]} onPress={() => navigation.navigate('QrCodeBooking')}>
+                            <Image source={AppImages.lightQrCode} style={styles.drawerOptionIcon} />
+                            <Text style={styles.drawerOptionText}>My Booking</Text>
+                        </TouchableOpacity>
 
-                    <Divider />
+                        <Divider />
 
-                    <TouchableOpacity style={[styles.drawerOptionContainer]}>
-                        <Image source={AppImages.Language} style={styles.drawerOptionIcon} />
-                        <Text style={styles.drawerOptionText}>Language</Text>
-                    </TouchableOpacity>
+                        <TouchableOpacity style={[styles.drawerOptionContainer]} onPress={() => navigation.navigate('SelectLanguage')}>
+                            <Image source={AppImages.Language} style={styles.drawerOptionIcon} />
+                            <Text style={styles.drawerOptionText}>Language</Text>
+                        </TouchableOpacity>
 
-                    <Divider />
+                        <Divider />
 
-                    <TouchableOpacity style={[styles.drawerOptionContainer]}>
-                        <Image source={AppImages.inviteOthers} style={styles.drawerOptionIcon} />
-                        <Text style={styles.drawerOptionText}>Invite Others</Text>
-                   </TouchableOpacity>
+                        <TouchableOpacity style={[styles.drawerOptionContainer]}>
+                            <Image source={AppImages.inviteOthers} style={styles.drawerOptionIcon} />
+                            <Text style={styles.drawerOptionText}>Invite Others</Text>
+                        </TouchableOpacity>
 
-                    <Divider />
+                        <Divider />
 
-                    <TouchableOpacity style={[styles.drawerOptionContainer]}>
-                        <Image source={AppImages.writeToUs} style={styles.drawerOptionIcon} />
-                        <Text style={styles.drawerOptionText}>Write to us</Text>
-                    </TouchableOpacity>
+                        <TouchableOpacity style={[styles.drawerOptionContainer]}>
+                            <Image source={AppImages.writeToUs} style={styles.drawerOptionIcon} />
+                            <Text style={styles.drawerOptionText}>Write to us</Text>
+                        </TouchableOpacity>
 
-                    <Divider />
+                        <Divider />
 
-                    <TouchableOpacity style={[styles.drawerOptionContainer]}>
-                        <Image source={AppImages.logout} style={styles.drawerOptionIcon} />
-                        <Text style={styles.drawerOptionText}>Logout</Text>
-                    </TouchableOpacity>
+                        <TouchableOpacity style={[styles.drawerOptionContainer]} onPress={hideDialog}>
+                            <Image source={AppImages.logout} style={styles.drawerOptionIcon} />
+                            <Text style={styles.drawerOptionText}>Logout</Text>
+                        </TouchableOpacity>
 
-                    <Divider />
-
-                </View>
+                        <Portal>
+                            <Dialog visible={visible}>
+                                <Dialog.Title style={styles.title}>Alert</Dialog.Title>
+                                <Dialog.Content>
+                                    <Text variant="bodyMedium">Are you sure? You want to logout</Text>
+                                </Dialog.Content>
+                                <Dialog.Actions>
+                                    <Button onPress={() => setVisible(false)}>Cancel</Button>
+                                    <Button onPress={handleLogout}>Ok</Button>
+                                </Dialog.Actions>
+                            </Dialog>
+                        </Portal>
+                        <Divider />
+                    </View>
+                </Provider>
             </SafeAreaView>
         )
     }
@@ -115,7 +163,7 @@ export const Drawer = (props) => {
             drawerPercentage={80}
             animationTime={250}
             overlay={overlay}
-          
+
         >
             {props.children}
         </MenuDrawer>

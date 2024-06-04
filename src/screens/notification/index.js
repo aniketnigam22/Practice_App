@@ -6,8 +6,9 @@ import { AppImages } from '../../common/AppImages'
 import { responsiveFontSize, responsiveHeight, responsiveWidth } from '../../common/metrices'
 import { commonColor } from '../../common/color'
 
-const Notification = ({navigation}) => {
+const Notification = ({ navigation }) => {
   return (
+    
     <SafeAreaView style={mystyles.app_background}>
       <View style={{ flex: 1, }}>
         <ScreenHeader />
@@ -17,14 +18,14 @@ const Notification = ({navigation}) => {
           </View>
         </View>
       </View>
-       <View style={{ flex: 1 }}>
+      <View style={{ flex: 1 }}>
         <View style={[mystyles.flex_center,]}>
           <Text style={{ color: '#343434', fontSize: responsiveFontSize(30), fontWeight: '700' }}>Notification</Text>
           <Text style={{ color: '#AAB1BB', fontWeight: '400', fontSize: responsiveFontSize(15), marginTop: 10 }}>{'Stay notified about to Alert and remind '}</Text>
           <Text style={{ color: '#AAB1BB', fontWeight: '400', fontSize: responsiveFontSize(15), }}>{'he booking'}</Text>
           <View style={{ marginTop: '14%' }}>
             <TouchableOpacity style={[styles.buttonStyle]} onPress={() => {
-              navigation.navigate('Login')
+              navigation.navigate('HomeScreen')
             }}>
               <View style={[styles.buttonInnerStyle]}>
                 <Text style={{ color: 'black', fontSize: responsiveFontSize(18), fontWeight: '500', color: '#FFFFFF' }}>ALLOW</Text>

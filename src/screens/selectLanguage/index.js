@@ -32,7 +32,7 @@ const SelectLanguage = ({navigation}) => {
                         <LanguageDropdown />
                         <View style={{marginTop:'90%'}}>
                             <RedButton buttonText={'Continue'} buttonIconValue={AppImages.right_arrow} handleButtonClick={() => {
-                        navigation.navigate('MobileInput')
+                        navigation.navigate('Notification')
                     }} />
                         </View>
                     </View>

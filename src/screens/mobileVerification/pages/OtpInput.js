@@ -9,11 +9,15 @@ import { responsiveHeight } from '../../../common/metrices'
 import { commonColor } from '../../../common/color'
 import { AppImages } from '../../../common/AppImages'
 import OTPTextView from 'react-native-otp-textinput';
+import { useNavigation } from '@react-navigation/native'
+
 
 const OtpInput = () => {
   const [text, setText] = useState('');
   const [otpInput, setOtpInput] = useState('');
   const input = useRef(null);
+
+  const navigation = useNavigation()
   return (
     <SafeAreaView style={mystyles.app_background}>
       <ScreenHeader />
@@ -35,7 +39,7 @@ const OtpInput = () => {
           <Text style={{color:'#CE1126'}}>Resend</Text>
         </View>
       <View style={[{marginTop:'10%' },mystyles.mh_16 ]}>
-          <RedButton buttonText={'Continue'} buttonIconValue={AppImages.right_arrow} />
+          <RedButton buttonText={'Continue'} buttonIconValue={AppImages.right_arrow}  handleButtonClick={() => navigation.navigate('SelectLanguage')}/>
         </View>
       </ScrollView>
     </SafeAreaView>

@@ -61,37 +61,15 @@ function App() {
         <NavigationContainer>
           <Stack.Navigator screenOptions={{
             headerShown: false,
-            animationEnabled: true,
-            gestureEnabled: true,
-            gestureDirection: 'horizontal',
-            cardStyleInterpolator: ({ current, next, layouts }) => {
-              return {
-                cardStyle: {
-                  transform: [
-                    {
-                      translateX: current.progress.interpolate({
-                        inputRange: [0, 1],
-                        outputRange: [layouts.screen.width, 0],
-                      }),
-                    },
-                  ],
-                },
-                overlayStyle: {
-                  opacity: current.progress.interpolate({
-                    inputRange: [0, 1],
-                    outputRange: [0, 0.5],
-                  }),
-                },
-              };
-            },
           }}>
+            <Stack.Screen name="Splash" component={Splash} options={{ headerShown: false }} />
             <Stack.Screen name="Login" component={Login} options={{ headerShown: false, animation: 'slide_from_right', animationTypeForReplace: 'push', }} />
             <Stack.Screen name="userInfo" component={UserInfo} options={{ headerShown: false, animation: 'slide_from_right', animationTypeForReplace: 'push', }} />
             <Stack.Screen name="Profile" component={Profile} options={{ headerShown: false }} />
             <Stack.Screen name="Register" component={Register} options={{ headerShown: false, animation: 'slide_from_right', animationTypeForReplace: 'push', }} />
             <Stack.Screen name="MobileInput" component={MobileInput} options={{ headerShown: false }} />
+            <Stack.Screen name="OtpInput" component={OtpInput} options={{ headerShown: false }} />
             <Stack.Screen name="HomeScreen" component={HomeScreen} options={{ headerShown: false }} />
-            <Stack.Screen name="Splash" component={Splash} options={{ headerShown: false }} />
             <Stack.Screen name="SelectLanguage" component={SelectLanguage} options={{ headerShown: false }} />
             <Stack.Screen name="Notification" component={Notification} options={{ headerShown: false }} />
             <Stack.Screen name="QrCodeBooking" component={QrCodeBooking} options={{ headerShown: false }} />

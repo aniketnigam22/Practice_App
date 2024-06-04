@@ -40,7 +40,6 @@ const HomeScreen = ({ navigation }) => {
         <>
             <SafeAreaView style={mystyles.app_background}>
                 <Drawer open={openDrawer} toggleDrawer={toggleDrawer}>
-                    
                     <View style={{ position: 'absolute', top: 0, left: 0, right: 0, zIndex: 1000 }}>
                         <HomeHeader onChangeText={(e) => {
                             bottomSheetRef.current.snapToIndex(0)

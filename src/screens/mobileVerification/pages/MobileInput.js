@@ -1,39 +1,45 @@
 import React, { useState } from 'react'
-import { Alert, SafeAreaView, ScrollView, StyleSheet, TextInput, TouchableHighlight, View } from 'react-native'
+import { Alert, Image, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableHighlight, View } from 'react-native'
 import { mystyles } from '../../../common/mystyle'
 import HeaderText from '../../../components/headerText'
 import ScreenHeader from '../../../components/screenHeader'
 import LanguageDropdown from '../../selectLanguage/component/LanguageDropdown'
-import { responsiveHeight } from '../../../common/metrices'
+import { responsiveHeight, responsiveWidth } from '../../../common/metrices'
 import { commonColor } from '../../../common/color'
 import CountryCodeDropdown from '../component/CountryCodeDropdown'
 import RedButton from '../../../components/RedButton'
 import { AppImages } from '../../../common/AppImages'
+import axios from 'axios'
+
 
 
 function MobileInput({ navigation }) {
 
   const [text, setText] = useState('');
 
+
+
   const handleMobileInput = () => {
-    if(text == '' ) {
-     Alert.alert('Moble field cannot be empty');
-     return;
+    if (text == '') {
+      Alert.alert('Moble field cannot be empty');
+      return;
     }
-    if(text.length  > 10){
+    if (text.length > 10) {
       Alert.alert('Invali mobile number');
       return;
     }
-    navigation.navigate('Notification')
+    navigation.navigate('OtpInput')
   }
   return (
     <SafeAreaView style={mystyles.app_background}>
       <ScreenHeader />
       <ScrollView>
         <View style={{ margin: 20 }}>
-          <HeaderText HeadingText={'Verify Number'} SubHeadingText={'Enter your Mobile number to \nenable 2-step verification'} />
+          <HeaderText HeadingText={'Verify '} SubHeadingText={'Enter your email to \nenable 2-step verification'} />
         </View>
-        <TouchableHighlight style={[mystyles.mh_16, { marginTop: '5%' }]}>
+        {
+        
+        /* <TouchableHighlight style={[mystyles.mh_16, { marginTop: '5%' }]}>
           <View style={{ flexDirection: 'row' }}>
             <CountryCodeDropdown />
             <TextInput
@@ -45,7 +51,40 @@ function MobileInput({ navigation }) {
               keyboardType='numeric'
             />
           </View>
+        </TouchableHighlight> */
+        }
+
+
+        <TouchableHighlight style={[mystyles.mh_16, { marginTop: '5%'}]}>
+          <View style={{ flexDirection: 'row' }}>
+            <View style={
+              [styles.mobileIcon,
+              {
+                borderTopLeftRadius: 12,
+                backgroundColor: commonColor.white,
+                height: 54,
+                marginTop: 20,
+                borderBottomLeftRadius: 12,
+                width: '20%',
+                justifyContent: 'center',
+                alignItems: 'center',
+                elevation: 2
+              }]}>
+              {/* <Image source={AppImages.lock} style={{ height: responsiveHeight(12), width: responsiveWidth(12), }} /> */}
+              <Text>@</Text>
+            </View>
+            <TextInput
+              placeholder="Enter email"
+              placeholderTextColor={'#AAB1BB'}
+              value={text}
+              onChangeText={setText}
+              style={[styles.textInputStyle, { borderTopRightRadius: 12 }]}
+            />
+          </View>
         </TouchableHighlight>
+
+
+
         <View style={[{ marginTop: '10%' }, mystyles.mh_16]}>
           <RedButton buttonText={'Continue'} buttonIconValue={AppImages.right_arrow} handleButtonClick={handleMobileInput} />
         </View>

@@ -33,28 +33,25 @@ const UserInfo = () => {
             return null;
         }
     };
-
-
-
-
+    
     return (
         <>
-           <View>
-            <Button onPress={getLoginInfo} title='Press to see user info' />
-            <View style={{ margin: 50 }}>
-                <Button title='Get userId' onPress={() => dispatch(fetchUser())} />
-                {userState.data ? <Text style={{ color: 'black' }}>{JSON.stringify(userState.data, null, 2)}</Text> : null}
+            <View>
+                <Button onPress={getLoginInfo} title='Press to see user info' />
+                <View style={{ margin: 50 }}>
+                    <Button title='Get userId' onPress={() => dispatch(fetchUser())} />
+                    {userState.data ? <Text style={{ color: 'black' }}>{JSON.stringify(userState.data, null, 2)}</Text> : null}
+                </View>
+                {userState.isLoading ? (
+                    <View>
+                        <Text style={{ color: 'black' }}>Loading...</Text>
+                    </View>
+                ) : userState.isError ? (
+                    <View>
+                        <Text style={{ color: 'black' }}>Error loading user data</Text>
+                    </View>
+                ) : null}
             </View>
-            {userState.isLoading ? (
-                <View>
-                    <Text style={{ color: 'black' }}>Loading...</Text>
-                </View>
-            ) : userState.isError ? (
-                <View>
-                    <Text style={{ color: 'black' }}>Error loading user data</Text>
-                </View>
-            ) : null}
-        </View>
         </>
     )
 }

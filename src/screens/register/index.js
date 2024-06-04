@@ -8,8 +8,14 @@ import { commonColor } from '../../common/color'
 import { AppImages } from '../../common/AppImages'
 import RedButton from '../../components/RedButton'
 import axios from 'axios'
+import { TouchableOpacity } from 'react-native-gesture-handler'
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { fetchUser } from '../../redux/user/UserData'
+import Toast from 'react-native-toast-message'
+import { useDispatch } from 'react-redux'
 
 const Register = ({ navigation }) => {
+
   const [text, setText] = useState('');
   const [text2, setText2] = useState('');
   const [text3, setText3] = useState('');
@@ -17,6 +23,7 @@ const Register = ({ navigation }) => {
   const [text5, setText5] = useState('');
 
 
+  const dispatch = useDispatch()
   const submit = async () => {
     if (text == '' && text2 == '' && text3 == '' && text4 == '') {
       Alert.alert("All  Field's Required*");
@@ -39,19 +46,33 @@ const Register = ({ navigation }) => {
       confirmPassword: text5
     }
 
+
+    const showToast = (type, text1, text2) => {
+      Toast.show({
+        type: type,
+        text1: text1,
+        text2: text2,
+      });
+    };
+
     try {
       const response = await axios.post('http://192.168.29.244:5000/api/auth/register', user)
-       console.log(response)
+      console.log(response)
       if (response.status === 201) {
-        Alert.alert('Registered Successfully')
-        navigation.navigate('Profile')
+        AsyncStorage.setItem('userId', response.data.user.id)
+        AsyncStorage.setItem('token', response.data.token)
+        AsyncStorage.setItem('userLoggedIn', '1')
+        dispatch(fetchUser())
+        showToast('success', 'Success', 'Registerd Successful');
+        navigation.navigate('MobileInput')
       }
       else {
-        Alert.alert('Registered Failed')
+        showToast('error', 'Failed', 'Registerd Failed');
       }
     }
     catch (error) {
-      Alert.alert('Something went wrong')
+      console.error('error during register:  ', error)
+      showToast('error', 'Failed', 'Something went wrong');
     }
   }
   return (
@@ -76,6 +97,8 @@ const Register = ({ navigation }) => {
             />
           </View>
         </TouchableHighlight>
+
+        
         <TouchableHighlight style={[mystyles.mh_16]}>
           <View style={{ flexDirection: 'row' }}>
             <View style={[styles.mobileIcon,]}>
@@ -91,6 +114,8 @@ const Register = ({ navigation }) => {
             />
           </View>
         </TouchableHighlight>
+
+
         <TouchableHighlight style={[mystyles.mh_16]}>
           <View style={{ flexDirection: 'row' }}>
             <View style={[styles.mobileIcon,]}>
@@ -107,6 +132,7 @@ const Register = ({ navigation }) => {
             />
           </View>
         </TouchableHighlight>
+
         <TouchableHighlight style={[mystyles.mh_16,]}>
           <View style={{ flexDirection: 'row' }}>
             <View style={[styles.mobileIcon,]}>
@@ -122,6 +148,7 @@ const Register = ({ navigation }) => {
             />
           </View>
         </TouchableHighlight>
+
         <TouchableHighlight style={[mystyles.mh_16]}>
           <View style={{ flexDirection: 'row' }}>
             <View style={[styles.mobileIcon, { borderBottomLeftRadius: 12 }]}>
@@ -144,8 +171,15 @@ const Register = ({ navigation }) => {
 
         <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginTop: 15 }}>
           <Text style={{ color: '#AAB1BB', fontSize: 16, fontWeight: '800' }}>Have an account?  </Text>
-          <Text style={{ color: '#CE1126', fontSize: 16, fontWeight: '800' }}>Login</Text>
+          <TouchableOpacity onPress={() => navigation.navigate('Login')}><Text style={{ color: '#CE1126', fontSize: 16, fontWeight: '800' }}>Login</Text></TouchableOpacity>
         </View>
+
+        <TouchableOpacity>
+          <View style={{ flexDirection: 'row', marginTop: 15, justifyContent: 'center', alignItems: 'center', }}>
+            <Text style={{ color: '#AAB1BB', fontSize: 16, fontWeight: '800' }}>Continue with google </Text>
+            <View style={{ height: 20, width: 20 }}><Image source={AppImages.google} style={{ height: 20, width: 20 }} resizeMode='contain' /></View>
+          </View>
+        </TouchableOpacity>
       </ScrollView>
     </SafeAreaView>
   )

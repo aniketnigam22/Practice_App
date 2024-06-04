@@ -31,4 +31,6 @@ export const AppImages = {
     inviteOthers: require('../assets/Images/inviteOthers.png'),
     writeToUs: require('../assets/Images/writeToUs.png'),
     logout: require('../assets/Images/logout.png'),
+    google: require('../assets/Images/Google.png'),
+    
 }

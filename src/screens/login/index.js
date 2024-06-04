@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { SafeAreaView, TouchableHighlight, View, TextInput, StyleSheet, Image, Text, ScrollView, Alert } from 'react-native'
+import { SafeAreaView, TouchableHighlight, View, TextInput, StyleSheet, Image, Text, ScrollView, Alert, TouchableOpacity } from 'react-native'
 import { mystyles } from '../../common/mystyle'
 import ScreenHeader from '../../components/screenHeader'
 import HeaderText from '../../components/headerText'
@@ -16,8 +16,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { fetchUser } from '../../redux/user/UserData'
 
 const Login = ({ navigation }) => {
-    const [text, setText] = useState('1234567891');
-    const [text2, setText2] = useState('abc12345');
+    const [text, setText] = useState('1234567859');
+    const [text2, setText2] = useState('12345678');
 
     const dispatch = useDispatch()
     const filter = useSelector((state) => state.user.userId)
@@ -31,8 +31,7 @@ const Login = ({ navigation }) => {
     };
 
     const handleLogin = async () => {
-
-        if (text == ''   ||  text2 == '') {
+        if (text == '' || text2 == '') {
             // Alert.alert('Fields cannot be empty');
             showToast('error', 'Failed', 'Fields cannot be empty');
             return;
@@ -42,32 +41,28 @@ const Login = ({ navigation }) => {
             showToast('error', 'Failed', 'Invalid Number');
             return;
         }
-
-
         const user = {
             mobileNo: text,
             password: text2
         }
-
         try {
-
             const response = await axios.post('http://192.168.29.244:5000/api/auth/login', user)
 
-        
             console.log(`status: ${response.data.status}`)
 
             if (response.data.status == 1) {
                 console.log('if block');
-                 {/* saving user id in redux */}
+                {/* saving user id in redux */ }
                 dispatch(login(response.data.user.id))
 
-
-                {/* saving user information in async storage */}
+                {/* saving user information in async storage */ }
                 AsyncStorage.setItem('userId', response.data.user.id)
                 AsyncStorage.setItem('token', response.data.token)
+                const userLoggedInValue = AsyncStorage.setItem('userLoggedIn', '1') 
+                console.log('user logged value during logout', userLoggedInValue)
                 dispatch(fetchUser())
                 showToast('success', 'Success', 'Login Successful');
-                navigation.navigate('Profile')
+                navigation.navigate('HomeScreen')
             }
             else if (response.data.status == 0) {
                 console.log('else  block');
@@ -135,7 +130,7 @@ const Login = ({ navigation }) => {
 
                 <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginTop: 15 }}>
                     <Text style={{ color: '#AAB1BB', fontSize: 16, fontWeight: '800' }}>Don't have an account?  </Text>
-                    <Text style={{ color: '#CE1126', fontSize: 16, fontWeight: '800' }}>Register</Text>
+                    <TouchableOpacity onPress={() => navigation.navigate('Register')}><Text style={{ color: '#CE1126', fontSize: 16, fontWeight: '800' }}>Register</Text></TouchableOpacity>
                 </View>
             </ScrollView>
         </SafeAreaView>
