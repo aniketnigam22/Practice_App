@@ -35,9 +35,12 @@ const InfiniteScroll = () => {
 
     try {
       const limit = 10; // Number of items per page
+      // skip is used to skip the data that are already been shown on the page for ex 1 - 10 and now you will se data from 11-20\
 
-      // skip is used to skip the data that are already been shown on the page for ex 1 - 10 and now you will se data from 11-20
-      const skip = pageNumber * limit; // Skip calculation for pagination
+
+      
+      const skip = pageNumber * limit;
+
       const response = await axios.get(`https://dummyjson.com/products?limit=${limit}&skip=${skip}&select=title,price`);
       const { products, total } = response.data;
 
