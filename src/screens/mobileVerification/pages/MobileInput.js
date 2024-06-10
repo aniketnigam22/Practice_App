@@ -10,6 +10,8 @@ import CountryCodeDropdown from '../component/CountryCodeDropdown'
 import RedButton from '../../../components/RedButton'
 import { AppImages } from '../../../common/AppImages'
 import axios from 'axios'
+import AsyncStorage from '@react-native-async-storage/async-storage'
+
 
 
 
@@ -17,18 +19,30 @@ function MobileInput({ navigation }) {
 
   const [text, setText] = useState('');
 
+  const URL = 'http://192.168.29.244:5000/api/auth/sendToEmail'
 
 
-  const handleMobileInput = () => {
+  const handleMobileInput = async () => {
     if (text == '') {
-      Alert.alert('Moble field cannot be empty');
+      Alert.alert('Field cannot be empty');
       return;
     }
-    if (text.length > 10) {
-      Alert.alert('Invali mobile number');
-      return;
+    const id = await AsyncStorage.getItem('userId');
+
+    try {
+      const user = {
+        "user_id": id,
+        "email": text
+      }
+      console.log( 'user data: ' , user);
+      console.log('email url: ', URL)
+      const response = await axios.post(URL, user)
+      console.log('Email sending for otp response : ', response.data)
+      navigation.navigate('OtpInput')
+    } catch (error) {
+      console.log(`Error while sending email: ${error}`);
     }
-    navigation.navigate('OtpInput')
+
   }
   return (
     <SafeAreaView style={mystyles.app_background}>
@@ -38,24 +52,24 @@ function MobileInput({ navigation }) {
           <HeaderText HeadingText={'Verify '} SubHeadingText={'Enter your email to \nenable 2-step verification'} />
         </View>
         {
-        
-        /* <TouchableHighlight style={[mystyles.mh_16, { marginTop: '5%' }]}>
-          <View style={{ flexDirection: 'row' }}>
-            <CountryCodeDropdown />
-            <TextInput
-              placeholder="Mobile Number"
-              placeholderTextColor={'#AAB1BB'}
-              value={text}
-              onChangeText={setText}
-              style={styles.textInputStyle}
-              keyboardType='numeric'
-            />
-          </View>
-        </TouchableHighlight> */
+
+          /* <TouchableHighlight style={[mystyles.mh_16, { marginTop: '5%' }]}>
+            <View style={{ flexDirection: 'row' }}>
+              <CountryCodeDropdown />
+              <TextInput
+                placeholder="Mobile Number"
+                placeholderTextColor={'#AAB1BB'}
+                value={text}
+                onChangeText={setText}
+                style={styles.textInputStyle}
+                keyboardType='numeric'
+              />
+            </View>
+          </TouchableHighlight> */
         }
 
 
-        <TouchableHighlight style={[mystyles.mh_16, { marginTop: '5%'}]}>
+        <TouchableHighlight style={[mystyles.mh_16, { marginTop: '5%' }]}>
           <View style={{ flexDirection: 'row' }}>
             <View style={
               [styles.mobileIcon,

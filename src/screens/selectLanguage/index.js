@@ -6,9 +6,21 @@ import { AppImages } from '../../common/AppImages'
 import { responsiveHeight, responsiveWidth } from '../../common/metrices'
 import { commonColor } from '../../common/color'
 import RedButton from '../../components/RedButton'
+import { useSelector } from 'react-redux'
+import { selectLanguage } from '../../redux/language/selectLanguage'
+import getSelectedLanugage, { getHeaderText } from '../../common/language'
 
-const SelectLanguage = ({navigation}) => {
+
+const SelectLanguage = ({ navigation }) => {
+
+
     const LanguageHeader = () => {
+        const language = useSelector((state) => state.language.languageValue)
+        console.log(`selected language ${language}`)
+        
+        const headerText = getHeaderText(language);
+
+      
         return (
             <>
                 <View style={[mystyles.flex_1, mystyles.flex_center]}>
@@ -16,8 +28,8 @@ const SelectLanguage = ({navigation}) => {
                         <Image source={AppImages.app_logo} style={{ height: responsiveHeight(120), width: responsiveWidth(120) }} />
                     </View>
                     <View style={{ marginVertical: responsiveHeight(20) }}>
-                        <Text style={mystyles.font_22}>{"Let's get started"}</Text>
-                        <Text style={mystyles.font_12}>{"Please select your language"}</Text>
+                        <Text style={mystyles.font_22}>{headerText.title}</Text>
+                        <Text style={mystyles.font_12}>{headerText.subtitle}</Text>
                     </View>
                 </View>
             </>
@@ -30,10 +42,10 @@ const SelectLanguage = ({navigation}) => {
                     <View style={mystyles.flex_1}>
                         <LanguageHeader />
                         <LanguageDropdown />
-                        <View style={{marginTop:'90%'}}>
+                        <View style={{ marginTop: '90%' }}>
                             <RedButton buttonText={'Continue'} buttonIconValue={AppImages.right_arrow} handleButtonClick={() => {
-                        navigation.navigate('Notification')
-                    }} />
+                                navigation.navigate('Notification')
+                            }} />
                         </View>
                     </View>
                 </ScrollView>

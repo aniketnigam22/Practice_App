@@ -15,6 +15,9 @@ import { AppImages } from '../../common/AppImages';
 import { commonColor } from '../../common/color';
 import { Drawer } from '../../components/sideDrawer';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
+import { useSelector, useDispatch } from 'react-redux';
+import { open } from '../../redux/drawer/ToggleDrawer';
+
 
 
 const HomeScreen = ({ navigation }) => {
@@ -23,9 +26,14 @@ const HomeScreen = ({ navigation }) => {
     const [multibook, setMultiBook] = useState(false);
     const [openDrawer, setDrawerOpen] = useState(false)
 
-    const toggleDrawer = () => {
-        setDrawerOpen(!openDrawer)
-    }
+    const toggleDrawerValue = useSelector((state) => state.ToggleDrawer.toggleDrawer)
+    const dispatch = useDispatch()
+
+
+
+    console.log('open',openDrawer)
+
+
     // ref
     const bottomSheetRef = useRef(null);
 
@@ -39,16 +47,16 @@ const HomeScreen = ({ navigation }) => {
     return (
         <>
             <SafeAreaView style={mystyles.app_background}>
-                <Drawer open={openDrawer} toggleDrawer={toggleDrawer}>
+                <Drawer open={toggleDrawerValue} toggleDrawer={toggleDrawerValue}>
                     <View style={{ position: 'absolute', top: 0, left: 0, right: 0, zIndex: 1000 }}>
                         <HomeHeader onChangeText={(e) => {
-                            bottomSheetRef.current.snapToIndex(0)
+                            bottomSheetRef.current.snapToIndex(1)
                             setBook(false)
                             setCancel(false)
                             setMultiBook(false)
 
                         }}
-                            onPress={toggleDrawer}
+                            onPress={()=>dispatch(open())}
                         />
                     </View>
                     <View style={styles.MainContainer}>

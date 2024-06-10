@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import {
     ScrollView,
@@ -20,32 +19,30 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useNavigation } from '@react-navigation/native';
 import { removeUser } from '../../redux/user/UserData';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { getDrawerText } from '../../common/language';
 import { close } from '../../redux/drawer/ToggleDrawer';
 
+
 export const Drawer = (props) => {
-
-
-    const navigation = useNavigation()
+    const navigation = useNavigation();
     const redux_data = useSelector((state) => state.userId?.data?.user);
-    const PROFILE_BASE_URL = 'http://192.168.29.244:5000/uploads/'
+    const language = useSelector((state) => state.language.languageValue);
+    const toggleDrawerValue = useSelector((state) => state.ToggleDrawer.toggleDrawer)
 
+    const PROFILE_BASE_URL = 'http://192.168.29.244:5000/uploads/';
 
-    const [profilePic, setProfilePic] = useState(redux_data?.profileImage == '-' ? '-' : PROFILE_BASE_URL)
-    console.log('profilePic', profilePic)
+    const [profilePic, setProfilePic] = useState(redux_data?.profileImage == '-' ? '-' : PROFILE_BASE_URL);
+    console.log('profilePic', profilePic);
 
-    {/* for dialog logout */ }
     const [visible, setVisible] = useState(false);
-
     const hideDialog = () => setVisible(true);
 
+    const username = redux_data?.name;
+    const crp = redux_data?.crNo;
+    const mobile = redux_data?.mobileNo;
 
-    const username = redux_data?.name
-    const crp = redux_data?.crNo
-    const mobile = redux_data?.mobileNo
-
-
-    const overlay = false
-    const position = 'left'
+    const overlay = false;
+    const position = 'left';
 
     const dispatch = useDispatch();
 
@@ -53,22 +50,24 @@ export const Drawer = (props) => {
         try {
             await AsyncStorage.removeItem('userId');
             await AsyncStorage.removeItem('token');
-            const userLoggedInValue = AsyncStorage.setItem('userLoggedIn', '0')
+            const userLoggedInValue = AsyncStorage.setItem('userLoggedIn', '0');
             console.log('User data removed successfully during logout');
-            console.log('user logged value during logout', userLoggedInValue)
+            console.log('user logged value during logout', userLoggedInValue);
             dispatch(removeUser());
-            setVisible(false)
-            dispatch(close())
+            setVisible(false);
+            dispatch(close());
+            console.log(toggleDrawerValue)
             navigation.navigate('Login');
         } catch (error) {
             console.error('error in handleLogout', error);
         }
-
     }
 
+    const drawerText = getDrawerText(language);
+
     const drawerContent = () => {
-        const edges = position == 'right' ? ['bottom', 'top', 'right'] : ['bottom', 'top', 'left']
-        const baseStyle = { flex: 1, borderStyle: 'solid', }
+        const edges = position == 'right' ? ['bottom', 'top', 'right'] : ['bottom', 'top', 'left'];
+        const baseStyle = { flex: 1, borderStyle: 'solid' };
 
         console.log(profilePic + '?=' + new Date());
 
@@ -76,15 +75,14 @@ export const Drawer = (props) => {
             <SafeAreaView edges={edges} style={baseStyle}>
                 <Provider>
                     <View style={{ flex: 1, backgroundColor: '#F3F5F9' }}>
-                        <ScreenHeader backNavigate={props.toggleDrawer} />
+                        <ScreenHeader backNavigate={() => dispatch(close())} />
                         <View style={{ flexDirection: 'row', margin: '5%', alignItems: 'center' }}>
-
                             <View style={{ height: 74, width: 74, borderRadius: 37, justifyContent: 'center', alignItems: 'center' }}>
                                 {
-                                profilePic == '-' ?
-                                    <Image source={AppImages.profileImage} style={{ height: 60, width: 60, borderRadius: 60, borderWidth: 1, borderColor: "grey" }} />
-                                    :
-                                    <Image source={{ uri: profilePic + redux_data?.profileImage + '?=' + new Date() }} style={{ height: 60, width: 60, borderRadius: 60, borderWidth: 1, borderColor: "#333" }} />
+                                    profilePic == '-' ?
+                                        <Image source={AppImages.profileImage} style={{ height: 60, width: 60, borderRadius: 60, borderWidth: 1, borderColor: "grey" }} />
+                                        :
+                                        <Image source={{ uri: profilePic + redux_data?.profileImage + '?=' + new Date() }} style={{ height: 60, width: 60, borderRadius: 60, borderWidth: 1, borderColor: "#333" }} />
                                 }
                             </View>
 
@@ -98,53 +96,53 @@ export const Drawer = (props) => {
                     <View style={{ flex: 4, backgroundColor: '#FFFFFF' }}>
                         <TouchableOpacity style={[styles.drawerOptionContainer]} onPress={() => navigation.navigate('Profile')}>
                             <Image source={AppImages.human} style={styles.drawerOptionIcon} />
-                            <Text style={styles.drawerOptionText}>My Profile</Text>
+                            <Text style={styles.drawerOptionText}>{drawerText.myProfile}</Text>
                         </TouchableOpacity>
 
                         <Divider />
 
                         <TouchableOpacity style={[styles.drawerOptionContainer]} onPress={() => navigation.navigate('QrCodeBooking')}>
                             <Image source={AppImages.lightQrCode} style={styles.drawerOptionIcon} />
-                            <Text style={styles.drawerOptionText}>My Booking</Text>
+                            <Text style={styles.drawerOptionText}>{drawerText.myBooking}</Text>
                         </TouchableOpacity>
 
                         <Divider />
 
                         <TouchableOpacity style={[styles.drawerOptionContainer]} onPress={() => navigation.navigate('SelectLanguage')}>
                             <Image source={AppImages.Language} style={styles.drawerOptionIcon} />
-                            <Text style={styles.drawerOptionText}>Language</Text>
+                            <Text style={styles.drawerOptionText}>{drawerText.language}</Text>
                         </TouchableOpacity>
 
                         <Divider />
 
                         <TouchableOpacity style={[styles.drawerOptionContainer]}>
                             <Image source={AppImages.inviteOthers} style={styles.drawerOptionIcon} />
-                            <Text style={styles.drawerOptionText}>Invite Others</Text>
+                            <Text style={styles.drawerOptionText}>{drawerText.inviteOthers}</Text>
                         </TouchableOpacity>
 
                         <Divider />
 
                         <TouchableOpacity style={[styles.drawerOptionContainer]}>
                             <Image source={AppImages.writeToUs} style={styles.drawerOptionIcon} />
-                            <Text style={styles.drawerOptionText}>Write to us</Text>
+                            <Text style={styles.drawerOptionText}>{drawerText.writeToUs}</Text>
                         </TouchableOpacity>
 
                         <Divider />
 
                         <TouchableOpacity style={[styles.drawerOptionContainer]} onPress={hideDialog}>
                             <Image source={AppImages.logout} style={styles.drawerOptionIcon} />
-                            <Text style={styles.drawerOptionText}>Logout</Text>
+                            <Text style={styles.drawerOptionText}>{drawerText.logout}</Text>
                         </TouchableOpacity>
 
                         <Portal>
                             <Dialog visible={visible}>
-                                <Dialog.Title style={styles.title}>Alert</Dialog.Title>
+                                <Dialog.Title style={styles.title}>{drawerText.dialogTitle}</Dialog.Title>
                                 <Dialog.Content>
-                                    <Text variant="bodyMedium">Are you sure? You want to logout</Text>
+                                    <Text variant="bodyMedium">{drawerText.dialogContent}</Text>
                                 </Dialog.Content>
                                 <Dialog.Actions>
-                                    <Button onPress={() => setVisible(false)}>Cancel</Button>
-                                    <Button onPress={handleLogout}>Ok</Button>
+                                    <Button onPress={() => setVisible(false)}>{drawerText.cancel}</Button>
+                                    <Button onPress={handleLogout}>{drawerText.ok}</Button>
                                 </Dialog.Actions>
                             </Dialog>
                         </Portal>
@@ -152,8 +150,8 @@ export const Drawer = (props) => {
                     </View>
                 </Provider>
             </SafeAreaView>
-        )
-    }
+        );
+    };
 
     return (
         <MenuDrawer
@@ -163,12 +161,11 @@ export const Drawer = (props) => {
             drawerPercentage={80}
             animationTime={250}
             overlay={overlay}
-
         >
             {props.children}
         </MenuDrawer>
     );
-}
+};
 
 const styles = StyleSheet.create({
     safeArea: {
@@ -217,5 +214,9 @@ const styles = StyleSheet.create({
         fontSize: 18,
         fontWeight: '600',
         flex: 1
+    },
+    title: {
+        fontSize: 20,
+        fontWeight: 'bold',
     }
 });

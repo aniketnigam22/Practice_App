@@ -14,8 +14,8 @@ const BookingConfirm = ({navigation}) => {
             <ScreenHeader screenHeadingValue={'Booking confirmation'} />
             <View>
                 <View style={mystyles.flex_center}>
-                    <View style={[styles.bookingDetailContainer, { marginTop: '15%' }]}>
-                        <View style={{ padding: 25, flexDirection: 'row', }}>
+                    <View style={[styles.bookingDetailContainer,{ marginTop: '15%' }]}>
+                        <View style={{ padding: 18, flexDirection: 'row', }}>
                             <View>
                                 <Text style={{ color: '#343434', fontSize: responsiveFontSize(19), fontWeight: '400' }}>Ahmad Masjid</Text>
                                 <Text style={{ color: '#AAB1BB', fontSize: responsiveFontSize(13), fontWeight: '400', marginTop: '1%' }}>{'Awal Avenue Corner Al Fatih \nHighway, Bahrain'}</Text>

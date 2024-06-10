@@ -1,5 +1,5 @@
 import React, { useRef } from 'react'
-import { SafeAreaView, ScrollView, View, TextInput, TouchableHighlight, Text , StyleSheet} from 'react-native'
+import { SafeAreaView, ScrollView, View, TextInput, TouchableHighlight, Text, StyleSheet, Alert } from 'react-native'
 import { mystyles } from '../../../common/mystyle'
 import ScreenHeader from '../../../components/screenHeader'
 import HeaderText from '../../../components/headerText'
@@ -10,6 +10,8 @@ import { commonColor } from '../../../common/color'
 import { AppImages } from '../../../common/AppImages'
 import OTPTextView from 'react-native-otp-textinput';
 import { useNavigation } from '@react-navigation/native'
+import axios from 'axios'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 
 const OtpInput = () => {
@@ -17,7 +19,50 @@ const OtpInput = () => {
   const [otpInput, setOtpInput] = useState('');
   const input = useRef(null);
 
+  const handleOtpChange = (otp) => {
+    setOtpInput(otp)
+    console.log(otpInput)
+  };
+  
   const navigation = useNavigation()
+
+  const URL = 'http://192.168.29.244:5000/api/auth/verifyOtp'
+
+  const handleButtonClick = async () => {
+    if(otpInput.length < 4 ) {
+      Alert.alert('Invalid OTP')
+      return
+    }
+    try {
+      const id = await AsyncStorage.getItem('userId');
+      const request = {
+        "user_id": id,
+        "otp": otpInput.toString()
+      }
+      console.log(String(otpInput))
+
+      console.log(`Request in otp verification ${JSON.stringify(request)}`)
+
+      const response = await axios.post(URL, request);
+
+      console.log(`Response of OTP : ${JSON.stringify(response.data)}`)
+
+      if (response.data.status == 1) {
+        console.log('Otp verified')
+        navigation.navigate('SelectLanguage')
+      }
+      else {
+        console.log('OTP did not match')
+        Alert.alert('Otp did not match')
+      }
+
+    } catch (error) {
+      console.log(`Error while sending otp ${error}`)
+      
+    }
+  }
+
+
   return (
     <SafeAreaView style={mystyles.app_background}>
       <ScreenHeader />
@@ -28,18 +73,18 @@ const OtpInput = () => {
         <OTPTextView
           ref={input}
           textInputStyle={styles.textInputStyle}
-          handleTextChange={setOtpInput}
+          handleTextChange={handleOtpChange}
           inputCount={4}
           keyboardType="numeric"
           tintColor={'red'}
           containerStyle={mystyles.mh_16}
         />
-        <View style={[mystyles.mh_16,{justifyContent:'center', alignItems:'center', marginTop:"6%"}]}>
-          <Text style={{color:'#AAB1BB'}}>I did not receive a code?</Text>
-          <Text style={{color:'#CE1126'}}>Resend</Text>
+        <View style={[mystyles.mh_16, { justifyContent: 'center', alignItems: 'center', marginTop: "6%" }]}>
+          <Text style={{ color: '#AAB1BB' }}>I did not receive a code?</Text>
+          <Text style={{ color: '#CE1126' }}>Resend</Text>
         </View>
-      <View style={[{marginTop:'10%' },mystyles.mh_16 ]}>
-          <RedButton buttonText={'Continue'} buttonIconValue={AppImages.right_arrow}  handleButtonClick={() => navigation.navigate('SelectLanguage')}/>
+        <View style={[{ marginTop: '10%' }, mystyles.mh_16]}>
+          <RedButton buttonText={'Continue'} buttonIconValue={AppImages.right_arrow} handleButtonClick={handleButtonClick} />
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -52,7 +97,7 @@ const styles = StyleSheet.create({
     width: 56,
     height: responsiveHeight(56),
     backgroundColor: commonColor.white,
-    borderRadius:14,
+    borderRadius: 14,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',

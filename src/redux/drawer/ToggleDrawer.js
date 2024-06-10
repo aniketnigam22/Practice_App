@@ -5,7 +5,7 @@ const initialState = {
 }
 
 export const drawerSlice = createSlice({
-    name: 's',
+    name: 'ToggleDrawer',
     initialState,
     reducers: {
         open: (state, action) => {

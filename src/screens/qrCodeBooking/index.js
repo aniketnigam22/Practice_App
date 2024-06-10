@@ -1,41 +1,46 @@
-import React from 'react'
-import { Image, SafeAreaView, Text, View, TouchableOpacity } from 'react-native'
-import { mystyles } from '../../common/mystyle'
-import ScreenHeader from '../../components/screenHeader'
-import { AppImages } from '../../common/AppImages'
-import { responsiveHeight, responsiveWidth } from '../../common/metrices'
+import React from 'react';
+import { Image, SafeAreaView, Text, View, TouchableOpacity } from 'react-native';
+import { mystyles } from '../../common/mystyle';
+import ScreenHeader from '../../components/screenHeader';
+import { AppImages } from '../../common/AppImages';
+import { responsiveHeight, responsiveWidth } from '../../common/metrices';
+import { useSelector } from 'react-redux';
+import { getQrCodeBookingText } from '../../common/language';
 
 
-const QrCodeBooking = ({navigation}) => {
+
+const QrCodeBooking = ({ navigation }) => {
+    const language = useSelector((state) => state.language.languageValue);
+    const qrCodeBookingText = getQrCodeBookingText(language);
+
     return (
         <SafeAreaView style={mystyles.app_background}>
-            <ScreenHeader screenHeadingValue={'My booking'} />
+            <ScreenHeader screenHeadingValue={qrCodeBookingText.screenHeading} />
             <View style={[mystyles.flex_center]}>
-                <View style={[mystyles.flex_center, {marginTop:'8%'}]}>
-                    <Text style={{ color: '#343434', fontWeight: '900', fontSize: 18 }}>Ahmad Masjid</Text>
-                    <Text style={{ color: '#343434', fontSize: 16 }}>for Juma’a Salah</Text>
+                <View style={[mystyles.flex_center, { marginTop: '8%' }]}>
+                    <Text style={{ color: '#343434', fontWeight: '900', fontSize: 18 }}>{qrCodeBookingText.masjidName}</Text>
+                    <Text style={{ color: '#343434', fontSize: 16 }}>{qrCodeBookingText.salahType}</Text>
                 </View>
 
-                <View style={[[mystyles.flex_center, {marginTop:'8%'}]]}>
-                    <Text style={{ color: '#343434', fontSize: 16 }}>Dec 12, 2020 at 11:30 AM</Text>
+                <View style={[[mystyles.flex_center, { marginTop: '8%' }]]}>
+                    <Text style={{ color: '#343434', fontSize: 16 }}>{qrCodeBookingText.dateTime}</Text>
                 </View>
 
-                <View style={{ height: 205, width: 205, backgroundColor: '#FFFFFF', justifyContent: 'center', alignItems: 'center' ,marginTop:'8%' }}>
+                <View style={{ height: 205, width: 205, backgroundColor: '#FFFFFF', justifyContent: 'center', alignItems: 'center', marginTop: '8%' }}>
                     <Image source={AppImages.qrCode} style={{ height: 169, width: 170 }} />
                 </View>
 
-                <View style={[mystyles.flex_center,{marginTop:'2%'}]}>
-                    <Text style={{ color: '#343434', fontSize: 14 }}>Scan this QR to enter Mosque</Text>
+                <View style={[mystyles.flex_center, { marginTop: '2%' }]}>
+                    <Text style={{ color: '#343434', fontSize: 14 }}>{qrCodeBookingText.scanQr}</Text>
                 </View>
 
-                <TouchableOpacity style={{marginTop:'20%'}}  
-                 onPress={() => {
-                    navigation.navigate('BookingConfirm')
-                 }}
-                
+                <TouchableOpacity style={{ marginTop: '20%' }}
+                    onPress={() => {
+                        navigation.navigate('BookingConfirm');
+                    }}
                 >
-                    <View style={{ flexDirection: 'row', alignItems: "center", }}>
-                        <Text style={{ color: '#1BB507', fontSize: 16, marginRight: 5 }}>Get Direction</Text>
+                    <View style={{ flexDirection: 'row', alignItems: "center" }}>
+                        <Text style={{ color: '#1BB507', fontSize: 16, marginRight: 5 }}>{qrCodeBookingText.getDirection}</Text>
                         <Image source={AppImages.rightArrow} />
                     </View>
                 </TouchableOpacity>
@@ -49,17 +54,12 @@ const QrCodeBooking = ({navigation}) => {
                     justifyContent: 'center',
                     alignItems: 'center',
                     marginTop: '25%'
-                }}
-
-               
-                    >
-                    <Text style={{ color: 'red' }}>Cancel Booking</Text>
+                }}>
+                    <Text style={{ color: 'red' }}>{qrCodeBookingText.cancelBooking}</Text>
                 </TouchableOpacity>
-
-
             </View>
         </SafeAreaView>
-    )
+    );
 }
 
-export default QrCodeBooking
+export default QrCodeBooking;

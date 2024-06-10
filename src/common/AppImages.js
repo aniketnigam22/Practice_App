@@ -1,4 +1,4 @@
-export const AppImages = {
+export const AppImages =  {
     app_logo : require('../assets/Images/logo.png'),
     mosq : require('../assets/Images/mosque1.png'),
     drop_icon : require('../assets/Images/dropIcon.png'),
@@ -32,5 +32,26 @@ export const AppImages = {
     writeToUs: require('../assets/Images/writeToUs.png'),
     logout: require('../assets/Images/logout.png'),
     google: require('../assets/Images/Google.png'),
-    
+    reelArrow: require('../assets/Images/LeftReelArrow.png'),
+    reelCamera: require('../assets/Images/reelCamera.png'),
+    reelShare: require('../assets/Images/reelShate.png'),
+    reelComment: require('../assets/Images/reelComment.png'),
+    reelHeart: require('../assets/Images/reelHeart.png'),
+    reelOption: require('../assets/Images/reelOption.png'),
+    music: require('../assets/Images/Music.png'),
+    blueTick: require('../assets/Images/blueTick.png'),
+    Avatart: require('../assets/Images/Avatar.png'),
+    reelMusicIcon: require('../assets/Images/reelMusicIcon.png'),
+    reelUserIcon: require('../assets/Images/reelUserIcon.png'),
+
+
+
+
+
+
+
+
+
+
+
 }

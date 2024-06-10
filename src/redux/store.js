@@ -4,6 +4,9 @@ import colorReducer from './color/colorSlice'
 import userReducer from './data/dataSlice'
 import userInfoReducer from './user/UserData'
 import drawerReducer from './drawer/ToggleDrawer'
+import languageReducer  from './language/selectLanguage'
+
+
 
 
 export const store = configureStore({
@@ -12,6 +15,7 @@ export const store = configureStore({
     color:colorReducer,
     user:userReducer,
     userId:userInfoReducer,
-    drawer:drawerReducer
+    ToggleDrawer:drawerReducer,
+    language:languageReducer,
   },
 })

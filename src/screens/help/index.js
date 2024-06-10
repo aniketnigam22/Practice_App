@@ -8,8 +8,7 @@ const  Help = ({navigation}) => {
   return (
     <SafeAreaView style={mystyles.app_background}>
      <ScreenHeader screenHeadingValue={'Help'} backNavigate={() => navigation.goBack()}/>
-     <View style={{backgroundColor:'red', flex:1}}>
-
+     <View style={{flex:1}}>
         <Image source={AppImages.helpImage} style={{width:'100%', height:'100%', resizeMode:'stretch', flex:1}}/>
      </View>
     </SafeAreaView>

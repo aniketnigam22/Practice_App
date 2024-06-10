@@ -4,20 +4,31 @@ import SelectDropdown from 'react-native-select-dropdown'
 import { AppImages } from '../../../common/AppImages';
 import { commonColor } from '../../../common/color';
 import { responsiveHeight } from '../../../common/metrices';
+import { useDispatch } from 'react-redux';
+import {selectLanguage} from '../../../redux/language/selectLanguage';
+import { SelectLanguage } from '../../../redux/language/selectLanguage';
+
 
 const LanguageDropdown = () => {
+
   const emojisWithIcons = [
     { title: 'Arabic', icon: 'emoticon-happy-outline' },
     { title: 'English', icon: 'emoticon-cool-outline' },
     { title: 'Urdu', icon: 'emoticon-lol-outline' },
     { title: 'Bangali', icon: 'emoticon-lol-outline' },
+    { title: 'Hindi', icon: 'emoticon-lol-outline' }
+
   ]
+
+  const dispatch = useDispatch();
     
   return (
     <>
       <SelectDropdown data={emojisWithIcons}
         onSelect={(selectedItem, index) => {
           console.log(selectedItem, index);
+          console.log(selectedItem.title)
+          dispatch(SelectLanguage(selectedItem.title))
         }}
         renderItem={(item, index, isSelected) => {
           return (

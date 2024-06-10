@@ -72,7 +72,7 @@ const HomeHeader = ({ onChangeText, onPress }) => {
               </View> */}
               <ScrollView>
                 <GooglePlacesAutocomplete
-                  ref={ref}
+                  ref={ref}  
                   placeholder='Search for Masjid'
                   listViewDisplayed={true}
                   fetchDetails={true}

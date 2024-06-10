@@ -88,10 +88,10 @@ const MosqDetail = () => {
                     </View>
                 </View>
                 <View style={mystyles.flex_center}>
-                    <View style={[styles.bookingDetailContainer, { marginTop: '15%' }]}>
+                    <View style={[styles.bookingDetailContainer, { marginTop: '10%' }]}>
                         <View style={{ padding: '5%' }}>
-                            <Text style={{ color: '#AAB1BB', fontSize: 20 }}>About the Mosque</Text>
-                            <Text style={{ color: '#626364', fontSize: 16, marginTop: "2%" }}>{"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, "}<Text style={{ color: 'black', fontWeight: '900' }}> more...</Text></Text>
+                            <Text style={{ color: '#AAB1BB', fontSize: responsiveFontSize(20) }}>About the Mosque</Text>
+                            <Text style={{ color: '#626364', fontSize: responsiveFontSize(16), marginTop: "2%" }}>{"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, "}<Text style={{ color: 'black', fontWeight: '900' }}> more...</Text></Text>
                         </View>
                     </View>
                 </View>
@@ -103,20 +103,21 @@ const MosqDetail = () => {
 }
 const styles = StyleSheet.create({
     bookingDetailContainer: {
-        height: responsiveHeight(130),
+        height: responsiveHeight(160),
         width: responsiveWidth(300),
         backgroundColor: '#FFFFFF',
         borderRadius: 10,
         elevation: 1
     },
     bookingDetailContainer22: {
-        height: responsiveHeight(94),
+        height: responsiveHeight(120),
         width: responsiveWidth(300),
         backgroundColor: '#FFFFFF',
         borderRadius: 10,
         elevation: 4,
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        
     }
 })
 export default MosqDetail

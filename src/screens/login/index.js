@@ -16,8 +16,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { fetchUser } from '../../redux/user/UserData'
 
 const Login = ({ navigation }) => {
-    const [text, setText] = useState('1234567859');
-    const [text2, setText2] = useState('12345678');
+    const [text, setText] = useState('7878787878');
+    const [text2, setText2] = useState('7878787878');
 
     const dispatch = useDispatch()
     const filter = useSelector((state) => state.user.userId)
@@ -73,7 +73,7 @@ const Login = ({ navigation }) => {
                 showToast('error', 'Failed', 'Invalid credentials');
             }
         } catch (error) {
-            console.log('catch block')
+            console.log('catch block during login')
             console.log(error)
             // Alert.alert('Something went wrong')
             showToast('error', 'Failed', 'Something went wrong');

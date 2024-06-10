@@ -16,10 +16,11 @@ export const fetchUser = createAsyncThunk("fetchUser", async () => {
         console.log(`Response in userInfo reducer: ${response}`)
         return response.data;
     } catch (error) {
-        console.log('inside catch')
-        console.log(error)
+        console.log('inside catch for api http://192.168.29.244:5000/api/auth/get-profile, fetch user detail')
+        console.log('Fetch user Detail', error)
     }
 });
+
 
 export const removeUser = createAsyncThunk('removeUser', async () => {
     try {
@@ -72,6 +73,8 @@ const userDataSlice = createSlice({
         });
     },
 });
+
+
 export default userDataSlice.reducer;
 
 

@@ -5,10 +5,17 @@ import { mystyles } from '../../common/mystyle'
 import { AppImages } from '../../common/AppImages'
 import { responsiveFontSize, responsiveHeight, responsiveWidth } from '../../common/metrices'
 import { commonColor } from '../../common/color'
+import { useSelector } from 'react-redux'
+import getSelectedLanugage, { getNotificationText } from '../../common/language'
 
 const Notification = ({ navigation }) => {
+
+  const language = useSelector((state) => state.language.languageValue)
+  console.log(`selected language  in notification:  ${language}`)
+
+  const notificationText = getNotificationText(language);
   return (
-    
+
     <SafeAreaView style={mystyles.app_background}>
       <View style={{ flex: 1, }}>
         <ScreenHeader />
@@ -20,9 +27,9 @@ const Notification = ({ navigation }) => {
       </View>
       <View style={{ flex: 1 }}>
         <View style={[mystyles.flex_center,]}>
-          <Text style={{ color: '#343434', fontSize: responsiveFontSize(30), fontWeight: '700' }}>Notification</Text>
-          <Text style={{ color: '#AAB1BB', fontWeight: '400', fontSize: responsiveFontSize(15), marginTop: 10 }}>{'Stay notified about to Alert and remind '}</Text>
-          <Text style={{ color: '#AAB1BB', fontWeight: '400', fontSize: responsiveFontSize(15), }}>{'he booking'}</Text>
+          <Text style={{ color: '#343434', fontSize: responsiveFontSize(30), fontWeight: '700' }}>{notificationText.title}</Text>
+          <Text style={{ color: '#AAB1BB', fontWeight: '400', fontSize: responsiveFontSize(15), marginTop: 10 }}>{notificationText.body1}</Text>
+          <Text style={{ color: '#AAB1BB', fontWeight: '400', fontSize: responsiveFontSize(15), }}>{notificationText.body2}</Text>
           <View style={{ marginTop: '14%' }}>
             <TouchableOpacity style={[styles.buttonStyle]} onPress={() => {
               navigation.navigate('HomeScreen')

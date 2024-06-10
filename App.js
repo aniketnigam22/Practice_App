@@ -22,6 +22,9 @@ import Redux from './src/screens/reduxScreen/Redux';
 import Toast from 'react-native-toast-message';
 import { StyleSheet, View , Text, } from 'react-native';
 import UserInfo from './src/screens/userInfo/UserInfo';
+import Form from './src/screens/form/Form';
+import Reel from './src/screens/ree/Reel';
+import InfiniteScroll from './src/screens/infiniteScroll/InfiniteScroll';
 
 
 const Stack = createStackNavigator();
@@ -62,20 +65,23 @@ function App() {
           <Stack.Navigator screenOptions={{
             headerShown: false,
           }}>
-            <Stack.Screen name="Splash" component={Splash} options={{ headerShown: false }} />
+            <Stack.Screen name="InfiniteScroll" component={InfiniteScroll} options={{ headerShown: false, animation: 'slide_from_right', animationTypeForReplace: 'push', }} />
+            <Stack.Screen name="Form" component={Form} options={{ headerShown: false, animation: 'slide_from_right', animationTypeForReplace: 'push', }} />
+            <Stack.Screen name="Reel" component={Reel} options={{ headerShown: false, animation: 'slide_from_right', animationTypeForReplace: 'push', }} />
             <Stack.Screen name="Login" component={Login} options={{ headerShown: false, animation: 'slide_from_right', animationTypeForReplace: 'push', }} />
+            <Stack.Screen name="OtpInput" component={OtpInput} options={{ headerShown: false }} />
+            <Stack.Screen name="HomeScreen" component={HomeScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="MosqDetail" component={MosqDetail} options={{ headerShown: false }} />
+            <Stack.Screen name="BookingConfirm" component={BookingConfirm} options={{ headerShown: false }} />
+            <Stack.Screen name="SelectLanguage" component={SelectLanguage} options={{ headerShown: false }} />
+            <Stack.Screen name="Splash" component={Splash} options={{ headerShown: false }} />
             <Stack.Screen name="userInfo" component={UserInfo} options={{ headerShown: false, animation: 'slide_from_right', animationTypeForReplace: 'push', }} />
             <Stack.Screen name="Profile" component={Profile} options={{ headerShown: false }} />
             <Stack.Screen name="Register" component={Register} options={{ headerShown: false, animation: 'slide_from_right', animationTypeForReplace: 'push', }} />
             <Stack.Screen name="MobileInput" component={MobileInput} options={{ headerShown: false }} />
-            <Stack.Screen name="OtpInput" component={OtpInput} options={{ headerShown: false }} />
-            <Stack.Screen name="HomeScreen" component={HomeScreen} options={{ headerShown: false }} />
-            <Stack.Screen name="SelectLanguage" component={SelectLanguage} options={{ headerShown: false }} />
             <Stack.Screen name="Notification" component={Notification} options={{ headerShown: false }} />
             <Stack.Screen name="QrCodeBooking" component={QrCodeBooking} options={{ headerShown: false }} />
-            <Stack.Screen name="BookingConfirm" component={BookingConfirm} options={{ headerShown: false }} />
             <Stack.Screen name="Help" component={Help} options={{ headerShown: false }} />
-            <Stack.Screen name="MosqDetail" component={MosqDetail} options={{ headerShown: false }} />
             <Stack.Screen name="Redux" component={Redux} options={{ headerShown: false }} />
           </Stack.Navigator>
         </NavigationContainer>
